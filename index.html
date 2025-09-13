@@ -1,0 +1,261 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>prjct34 ending</title>
+<style>
+body {
+background:#000;
+color:#fff;
+margin:0;
+font-family: Verdana, Tahoma, sans-serif;
+}
+
+.wrap{
+display:flex;
+justify-content:center;
+align-items:center;
+min-height:100vh;
+text-align:center;
+padding:20px;
+box-sizing:border-box;
+}
+
+h1{
+font-size:clamp(40px, 9vw, 120px);
+margin:0;
+text-transform:uppercase;
+text-shadow:1px 1px 2px #00f;
+}
+
+.countdown {
+margin-top:20px;
+font-size:20px;
+font-weight:bold;
+font-family: "Courier New", monospace;
+background:#111;
+display:inline-block;
+padding:10px 20px;
+border:2px inset #666;
+}
+
+.links {
+margin-top:30px;
+display:flex;
+flex-wrap:wrap;
+gap:8px;
+justify-content:center;
+}
+
+.links button {
+background:#e0e0e0;
+border:2px outset #fff;
+padding:4px 10px;
+font-size:13px;
+cursor:pointer;
+}
+.links button:active {
+border:2px inset #999;
+background:#d0d0d0;
+}
+
+.modal-backdrop {
+position:fixed;
+inset:0;
+background:rgba(0,0,0,0.6);
+display:none;
+align-items:center;
+justify-content:center;
+z-index:1000;
+}
+.modal-backdrop.show { display:flex; }
+
+.modal {
+width:360px;
+background:#ece9d8;
+border:2px outset #fff;
+box-shadow:2px 2px 6px #000;
+padding:16px;
+text-align:left;
+font-size:13px;
+color:#000;
+}
+
+.modal h2 {
+margin:0 0 10px 0;
+font-size:16px;
+font-weight:bold;
+background:#0a246a;
+color:#fff;
+padding:4px 6px;
+border:1px solid #000;
+}
+
+label {
+display:block;
+margin:8px 0 4px;
+}
+input[type="text"], input[type="password"] {
+width:100%;
+padding:4px;
+border:2px inset #ccc;
+background:#fff;
+color:#000;
+font-size:13px;
+}
+
+.actions {
+margin-top:12px;
+text-align:right;
+}
+.btn {
+background:#e0e0e0;
+border:2px outset #fff;
+padding:4px 10px;
+font-size:13px;
+cursor:pointer;
+margin-left:6px;
+}
+.btn:active {
+border:2px inset #999;
+background:#d0d0d0;
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+<div>
+<h1 id="main-title">prjct34 ending</h1>
+<div class="countdown" id="countdown">-- jours --:--:--</div>
+
+<div class="links" id="links">
+<!-- 33 boutons directement dans le HTML -->
+<button>prjct 1</button>
+<button>prjct 2</button>
+<button>prjct 3</button>
+<button>prjct 4</button>
+<button>prjct 5</button>
+<button>prjct 6</button>
+<button>prjct 7</button>
+<button>prjct 8</button>
+<button>prjct 9</button>
+<button>prjct 10</button>
+<button>prjct 11</button>
+<button>prjct 12</button>
+<button>prjct 13</button>
+<button>prjct 14</button>
+<button>prjct 15</button>
+<button>prjct 16</button>
+<button>prjct 17</button>
+<button>prjct 18</button>
+<button>prjct 19</button>
+<button>prjct 20</button>
+<button>prjct 21</button>
+<button>prjct 22</button>
+<button>prjct 23</button>
+<button>prjct 24</button>
+<button>prjct 25</button>
+<button>prjct 26</button>
+<button>prjct 27</button>
+<button>prjct 28</button>
+<button>prjct 29</button>
+<button>prjct 30</button>
+<button>prjct 31</button>
+<button>prjct 32</button>
+<button>prjct 33</button>
+</div>
+</div>
+</div>
+
+<!-- Modale unique -->
+<div id="modal-login" class="modal-backdrop">
+<div class="modal">
+<h2>Connexion</h2>
+<form onsubmit="return false;" autocomplete="off" novalidate>
+<label>Identifiant :</label>
+<input type="text">
+<label>Mot de passe :</label>
+<input type="password">
+<div class="actions">
+<button type="button" class="btn" data-close>Fermer</button>
+<button type="button" class="btn fake-submit">Se connecter</button>
+</div>
+</form>
+</div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function(){
+// --- compte à rebours ---
+const now = Date.now();
+const ms = 1000;
+const target = now + (13*24*60*60*ms) + (2*60*60*ms);
+const el = document.getElementById('countdown');
+
+function pad(n){ return String(n).padStart(2,'0'); }
+
+function updateCountdown(){
+const diff = target - Date.now();
+if(diff <=0){
+el.textContent = '00 jours 00:00:00';
+clearInterval(timer);
+updateTitle(0);
+return;
+}
+const totalSec = Math.floor(diff/1000);
+const days = Math.floor(totalSec/86400);
+const hours = Math.floor((totalSec%86400)/3600);
+const mins = Math.floor((totalSec%3600)/60);
+const secs = totalSec%60;
+el.textContent = days+' jours '+pad(hours)+':'+pad(mins)+':'+pad(secs);
+updateTitle(diff);
+}
+
+const timer = setInterval(updateCountdown,1000);
+updateCountdown();
+
+// --- disparition titre synchronisée ---
+const titleEl = document.getElementById("main-title");
+const originalText = titleEl.textContent;
+const totalDuration = target - now;
+function updateTitle(remaining){
+const rem = typeof remaining==="number"?remaining:(target-Date.now());
+if(rem<=0){titleEl.textContent="";return;}
+const ratio = rem/totalDuration;
+const newLength = Math.ceil(originalText.length*ratio);
+titleEl.textContent = originalText.slice(0,newLength);
+}
+
+// --- ajout événement aux 33 boutons ---
+document.querySelectorAll('.links button').forEach(btn=>{
+btn.addEventListener('click', e=>{
+e.preventDefault();
+document.getElementById("modal-login").classList.add("show");
+});
+});
+
+// --- gestion modale ---
+const modal = document.getElementById("modal-login");
+modal.addEventListener("click",e=>{
+if(e.target===modal) modal.classList.remove("show");
+});
+modal.querySelectorAll('[data-close]').forEach(btn=>{
+btn.addEventListener("click",()=>modal.classList.remove("show"));
+});
+
+modal.querySelectorAll('.fake-submit').forEach(btn=>{
+btn.addEventListener("click",e=>{
+const form = e.target.closest('form');
+form.animate([
+{ transform:'translateX(0)' },
+{ transform:'translateX(-6px)' },
+{ transform:'translateX(6px)' },
+{ transform:'translateX(0)' }
+],{duration:200});
+});
+});
+});
+</script>
+</body>
+</html>
